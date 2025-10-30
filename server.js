@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import connectDatabase from './config/db.js';
 import userRouter from './routes/user.routes.js';
 import expenseRouter from './routes/expense.routes.js';
+import budgetRouter from './routes/budget.routes.js';
 config({ path: './config/.env' });
 
 const port = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRouter);
 app.use('/api/expenses', expenseRouter);
+app.use('/api/budgets', budgetRouter);
 
 async function startServer() {
 	await connectDatabase();
