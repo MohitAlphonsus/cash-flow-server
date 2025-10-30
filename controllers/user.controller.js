@@ -1,4 +1,4 @@
-import e from 'express';
+import generateToken from '../utils/token.js';
 import User from '../models/user.model.js';
 
 async function signUp(req, res) {
@@ -16,7 +16,9 @@ async function signIn(req, res) {
 	try {
 		const { email, password } = req.body;
 		const user = await User.login(email, password);
-		res.status(200).json({ user });
+
+		const token = generateToken(user._id);
+		res.status(200).json({ user, token });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
