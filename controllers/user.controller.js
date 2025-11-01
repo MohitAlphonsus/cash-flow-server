@@ -6,9 +6,11 @@ async function signUp(req, res) {
 		const { name, email, password } = req.body;
 		const hashedPassword = await User.signup(password);
 		const user = await User.create({ name, email, password: hashedPassword });
-		res.status(201).json({ user });
+		res
+			.status(201)
+			.json({ success: true, message: 'User created successfully', user });
 	} catch (err) {
-		res.status(500).json({ error: err.message });
+		res.status(500).json({ success: false, message: err.message });
 	}
 }
 
@@ -18,9 +20,14 @@ async function signIn(req, res) {
 		const user = await User.login(email, password);
 
 		const token = generateToken(user._id);
-		res.status(200).json({ user, token });
+		res.status(200).json({
+			success: true,
+			message: 'User logged in successfully',
+			user,
+			token,
+		});
 	} catch (err) {
-		res.status(500).json({ error: err.message });
+		res.status(500).json({ success: false, message: err.message });
 	}
 }
 
